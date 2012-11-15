@@ -26,24 +26,36 @@ class Category_subscription_export_db_manager{
 			$toReturn[$currentIndex][] = $person->user_email;
 			$toReturn[$currentIndex][] = $person->user_class_year;
 			foreach ($category_ids as $category_id){
-				$toReturn[$currentIndex][] = $this->check_if_subscribed($person->user_id, $category_id);
+				$subscription_pref = $this->check_if_subscribed($person->user_id, $category_id);
+				if ($subscription_pref === FALSE) {
+					$toReturn[$currentIndex][] = 0;
+					$toReturn[$currentIndex][] = '';
+				}
+				else {
+					$toReturn[$currentIndex][] = 1;
+					$toReturn[$currentIndex][] = $subscription_pref;
+				}
 			}
+			
 		}
 		return $toReturn;
 	}
 	public function check_if_subscribed($user, $category){
 		// get globals 
-		global $wpdb;
+		global $wpdb, $cat_sub;
 		// gather data
-		$prepared = $wpdb->prepare("SELECT COUNT(id) as subscribed FROM wp_cat_sub_categories_users c WHERE category_ID = %d AND user_ID = %d", array($category, $user));
+		$prepared = $wpdb->prepare("SELECT id, delivery_time_preference FROM " . $cat_sub->user_subscriptions_table_name . " c WHERE category_ID = %d AND user_ID = %d", array($category, $user));
 		$results = $wpdb->get_results($prepared, OBJECT);
-		return $results[0]->subscribed;
+		if (count($results) < 1){
+			return FALSE;
+		}
+		return $results[0]->delivery_time_preference;
 	}
 	public function get_aggregate_data(){
 		// get globals
-		global $wpdb;
+		global $wpdb, $cat_sub;
 		// gather data
-		$prepared = $wpdb->prepare("SELECT DISTINCT t.name, COUNT(c.category_ID) AS subscribed, t.term_id AS id FROM wp_terms t INNER JOIN wp_term_taxonomy n ON t.term_id = n.term_id LEFT JOIN wp_cat_sub_categories_users c ON t.term_id = c.category_ID WHERE n.taxonomy = 'category' GROUP BY t.name");
+		$prepared = $wpdb->prepare("SELECT DISTINCT t.name, COUNT(c.category_ID) AS subscribed, t.term_id AS id FROM wp_terms t INNER JOIN wp_term_taxonomy n ON t.term_id = n.term_id LEFT JOIN " . $cat_sub->user_subscriptions_table_name . " c ON t.term_id = c.category_ID WHERE n.taxonomy = 'category' GROUP BY t.name");
 		$results = $wpdb->get_results($prepared, OBJECT);
 		return $results;
 	}

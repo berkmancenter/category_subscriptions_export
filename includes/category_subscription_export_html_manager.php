@@ -52,17 +52,18 @@ class Category_subscription_export_html_manager{
 				// write it
 				$head = $cat_sub_export_db->get_individual_header();
 				// show heirarchy
-				$category_names = array();
+				$headers = array();
 				foreach ($head as $category){
-					$nameStr = get_category_parents($category, FALSE, ' - ');
-					if (substr($nameStr, -3) == ' - '){
+					$nameStr = get_category_parents($category, FALSE, ' > ');
+					if (substr($nameStr, -3) == ' > '){
 						$nameStr = substr($nameStr, 0, strlen($nameStr) - 3);
 					}
-					$category_names[] = $nameStr;
+					$headers[] = $nameStr;
+					$headers[] = $nameStr . " Preferences";
 				}
 				// add some headers
-				array_unshift($category_names, "Name", "Email", "Class Year");
-				fputcsv($output, $category_names);
+				array_unshift($headers, "Name", "Email", "Class Year");
+				fputcsv($output, $headers);
 				$data = $cat_sub_export_db->get_individual_data($head);
 				foreach ($data as $datum){
 					fputcsv($output, $datum);
