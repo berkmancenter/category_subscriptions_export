@@ -5,7 +5,7 @@ class Category_subscription_export_db_manager{
 		// get globals 
 		global $wpdb;
 		// gather data
-		$prepared = $wpdb->prepare("SELECT DISTINCT t.name AS name, t.term_id AS id FROM wp_terms t INNER JOIN wp_term_taxonomy n ON t.term_id = n.term_id WHERE n.taxonomy = 'category'");
+		$prepared = $wpdb->prepare("SELECT DISTINCT t.name AS name, t.term_id AS id FROM " . $wpdb->prefix . "terms t INNER JOIN " . $wpdb->prefix . "term_taxonomy n ON t.term_id = n.term_id WHERE n.taxonomy = 'category'");
 		$results = $wpdb->get_results($prepared, OBJECT);
 		foreach ($results as $result){
 			$toReturn[] = $result->id;
@@ -16,7 +16,7 @@ class Category_subscription_export_db_manager{
 		// get globals 
 		global $wpdb;
 		// gather data
-		$prepared = $wpdb->prepare("SELECT u.display_name as user_name, u.ID as user_id, u.user_email as user_email, m.meta_value as user_class_year FROM wp_users u LEFT JOIN wp_usermeta m ON m.user_id = u.ID AND m.meta_key='class_year'");
+		$prepared = $wpdb->prepare("SELECT u.display_name as user_name, u.ID as user_id, u.user_email as user_email, m.meta_value as user_class_year FROM " . $wpdb->prefix . "users u LEFT JOIN " . $wpdb->prefix . "usermeta m ON m.user_id = u.ID AND m.meta_key='class_year'");
 		$people = $wpdb->get_results($prepared, OBJECT);
 		$toReturn = array();
 		foreach ($people as $person){
@@ -55,7 +55,7 @@ class Category_subscription_export_db_manager{
 		// get globals
 		global $wpdb, $cat_sub;
 		// gather data
-		$prepared = $wpdb->prepare("SELECT DISTINCT t.name, COUNT(c.category_ID) AS subscribed, t.term_id AS id FROM wp_terms t INNER JOIN wp_term_taxonomy n ON t.term_id = n.term_id LEFT JOIN " . $cat_sub->user_subscriptions_table_name . " c ON t.term_id = c.category_ID WHERE n.taxonomy = 'category' GROUP BY t.name");
+		$prepared = $wpdb->prepare("SELECT DISTINCT t.name, COUNT(c.category_ID) AS subscribed, t.term_id AS id FROM " . $wpdb->prefix . "terms t INNER JOIN " . $wpdb->prefix . "term_taxonomy n ON t.term_id = n.term_id LEFT JOIN " . $cat_sub->user_subscriptions_table_name . " c ON t.term_id = c.category_ID WHERE n.taxonomy = 'category' GROUP BY t.name");
 		$results = $wpdb->get_results($prepared, OBJECT);
 		return $results;
 	}
