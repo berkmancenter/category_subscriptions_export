@@ -16,7 +16,7 @@ class Category_subscription_export_db_manager{
 		// get globals 
 		global $wpdb;
 		// gather data
-		$prepared = $wpdb->prepare("SELECT u.display_name as user_name, u.ID as user_id, u.user_email as user_email, m.meta_value as user_class_year FROM " . $wpdb->prefix . "users u LEFT JOIN " . $wpdb->prefix . "usermeta m ON m.user_id = u.ID AND m.meta_key='class_year'");
+		$prepared = $wpdb->prepare("SELECT u.display_name as user_name, u.ID as user_id, u.user_email as user_email, m.meta_value as user_class_year FROM " . $wpdb->base_prefix . "users u LEFT JOIN " . $wpdb->base_prefix . "usermeta m ON m.user_id = u.ID AND m.meta_key='class_year'");
 		$people = $wpdb->get_results($prepared, OBJECT);
 		$toReturn = array();
 		foreach ($people as $person){
