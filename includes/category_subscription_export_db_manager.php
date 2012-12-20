@@ -20,6 +20,7 @@ class Category_subscription_export_db_manager{
 		$people = $wpdb->get_results($prepared, OBJECT);
 		$toReturn = array();
 		foreach ($people as $person){
+			set_time_limit(30);
 			$currentIndex = count($toReturn);
 			$toReturn[$currentIndex] = array();
 			$toReturn[$currentIndex][] = $person->user_name;
