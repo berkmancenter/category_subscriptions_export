@@ -62,7 +62,7 @@ class Category_subscription_export_html_manager{
 					$headers[] = $nameStr . " Preferences";
 				}
 				// add some headers
-				array_unshift($headers, "Name", "Email", "Class Year");
+				array_unshift($headers, "Name", "Email");
 				fputcsv($output, $headers);
 				$data = $cat_sub_export_db->get_individual_data($head);
 				foreach ($data as $datum){
@@ -78,28 +78,6 @@ class Category_subscription_export_html_manager{
 			}
 		}
 	}
-
-	public function create_inline_column($defaults){
-		$defaults['class_year'] = __('Class Year');
-		return $defaults;
-	}
-
-	public function create_inline_class($empty = '', $column_name, $user_id){
-		if ($column_name == 'class_year'){
-			$output = get_user_meta($user_id, 'class_year', TRUE);
-			return ('<input type="text" style="width:75px" name="CSECY' . $user_id . '" value="' . $output . '" />');
-		} 
-		return $empty;
-	}
-
-	public function create_independant_class($user){
-		$output = get_user_meta($user->ID, 'class_year', TRUE);
-		?>
-			<h3><?php _e('Class year'); ?></h3>
-			<input name="CSECY<?php echo($user->ID); ?>" type="text" value="<?php echo($output); ?>" />
-		<?php
-	}
-
 }
 
 ?>
