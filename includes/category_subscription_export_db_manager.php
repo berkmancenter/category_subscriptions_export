@@ -25,7 +25,7 @@ class Category_subscription_export_db_manager{
 			$toReturn[$currentIndex] = array();
 			$toReturn[$currentIndex][] = $person->user_name;
 			$toReturn[$currentIndex][] = $person->user_email;
-			$prepared_subscriptions = $wpdb->prepare("SELECT category_ID, delivery_time_preference FROM " . $cat_sub->user_subscriptions_table_name . " WHERE user_ID = %d", [$person->user_id]);
+			$prepared_subscriptions = $wpdb->prepare("SELECT category_ID, delivery_time_preference FROM " . $cat_sub->user_subscriptions_table_name . " WHERE user_ID = %d", array($person->user_id));
 			$subscribed_to = $wpdb->get_results($prepared_subscriptions, OBJECT);
 			foreach ($category_ids as $category_id){
 				foreach ($subscribed_to as $subscription){
