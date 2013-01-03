@@ -16,7 +16,7 @@ class Category_subscription_export_db_manager{
 		// get globals 
 		global $wpdb, $cat_sub;
 		// gather data
-		$prepared = $wpdb->prepare("SELECT DISTINCT u.display_name as user_name, u.ID as user_id, u.user_email as user_email FROM " . $wpdb->base_prefix . "users u INNER JOIN " . $cat_sub->user_subscriptions_table_name . " c ON c.user_ID = u.ID");
+		$prepared = $wpdb->prepare("SELECT DISTINCT u.display_name as user_name, u.ID as user_id, u.user_email as user_email FROM " . $wpdb->base_prefix . "users u INNER JOIN " . $wpdb->base_prefix . "usermeta m ON m.user_id = u.ID WHERE m.meta_key = '" . $wpdb->prefix . "capabilities'");
 		$people = $wpdb->get_results($prepared, OBJECT);
 		$toReturn = array();
 		foreach ($people as $person){
