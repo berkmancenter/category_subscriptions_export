@@ -46,7 +46,7 @@ class Category_subscription_export_db_manager{
 		// get globals
 		global $wpdb, $cat_sub;
 		// gather data
-		$prepared = $wpdb->prepare("SELECT t.name, COUNT(c.category_ID) AS subscribed, t.term_id AS id FROM " . $wpdb->prefix . "terms t INNER JOIN " . $wpdb->prefix . "term_taxonomy n ON t.term_id = n.term_id LEFT JOIN " . $cat_sub->user_subscriptions_table_name . " c ON t.term_id = c.category_ID WHERE n.taxonomy = 'category' GROUP BY t.name");
+		$prepared = $wpdb->prepare("SELECT t.name, COUNT(c.category_ID) AS subscribed, t.term_id AS id FROM " . $wpdb->prefix . "terms t INNER JOIN " . $wpdb->prefix . "term_taxonomy n ON t.term_id = n.term_id LEFT JOIN " . $cat_sub->user_subscriptions_table_name . " c ON t.term_id = c.category_ID WHERE n.taxonomy = 'category' GROUP BY c.category_ID");
 		$results = $wpdb->get_results($prepared, OBJECT);
 		return $results;
 	}
