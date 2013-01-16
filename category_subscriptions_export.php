@@ -2,7 +2,7 @@
 /*
 Plugin Name: Categories Subscription Export
 Plugin URI: http://github.com/berkmancenter/category_subscriptions_export
-Description: A custom export for category subscriptions.
+Description: A plugin to export data from the  category subscriptions plugin.
 Version: 0.1
 */
 
