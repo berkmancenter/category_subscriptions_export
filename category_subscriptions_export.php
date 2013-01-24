@@ -1,7 +1,9 @@
 <?php
 /*
 Plugin Name: Categories Subscription Export
-Plugin URI: http://github.com/berkmancenter/category_subscriptions_export
+Plugin URI: https://github.com/berkmancenter/category_subscriptions_export
+Author: Tomas Reimers
+Author URI: http://tomasreimers.com
 Description: A plugin to export data from the  category subscriptions plugin.
 Version: 0.1
 */
